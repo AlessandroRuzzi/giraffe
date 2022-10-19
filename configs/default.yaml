@@ -19,7 +19,9 @@ model:
   neural_renderer: simple
   discriminator_kwargs: {}
   bounding_box_generator_kwargs: {}
-  generator_kwargs: {}
+  generator_kwargs: 
+    range_v: [0.5, 0.5]
+    fov: 30
   neural_renderer_kwargs:
     input_dim: 512
     n_feat: 512
