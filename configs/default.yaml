@@ -19,16 +19,10 @@ model:
   neural_renderer: simple
   discriminator_kwargs: {}
   bounding_box_generator_kwargs: {}
-  generator_kwargs: 
-    range_v: [0.5, 0.5]
-    fov: 30
-  neural_renderer_kwargs:
-    input_dim: 512
-    n_feat: 512
-  decoder_kwargs:
-    rgb_out_dim: 512
+  generator_kwargs: {}
+  neural_renderer_kwargs: {}
+  decoder_kwargs: {}
   background_generator_kwargs:
-    rgb_out_dim: 512
     hidden_size: 64
     n_blocks: 4
     downscale_p_by: 12
@@ -42,7 +36,7 @@ training:
   validate_every: 10000
   backup_every: 1000000
   learning_rate: 0.0001
-  learning_rate_d: 0.0001
+  learning_rate_d: 0.00001
   model_selection_metric: fid_score
   model_selection_mode: minimize
   n_workers: 0
