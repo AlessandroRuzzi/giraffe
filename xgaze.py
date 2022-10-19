@@ -227,7 +227,7 @@ class GazeDataset(Dataset):
 
 
         #print("load the file: ", "configs/config_files/evaluation_target_single_subject.txt")
-        self.target_idx = np.loadtxt("configs/config_files/evaluation_target_single_subject.txt", dtype=np.int)
+        self.target_idx = np.loadtxt("data/evaluation_target_single_subject.txt", dtype=np.int)
         
         """
         np.savetxt(fname="configs/config_files/evaluation_input_single_subject.txt",X=self.idx_to_kv,fmt ='%.0f')
