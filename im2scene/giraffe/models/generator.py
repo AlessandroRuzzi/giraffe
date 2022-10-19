@@ -129,7 +129,7 @@ class Generator(nn.Module):
 
         def sample_z(x): return self.sample_z(x, tmp=tmp)
         z_shape_obj = sample_z((batch_size, n_boxes, z_dim))
-        z_app_obj[:,-2:] = gaze_direction
+        z_shape_obj[:,-2:] = gaze_direction
         z_app_obj = sample_z((batch_size, n_boxes, z_dim))
         z_shape_bg = sample_z((batch_size, z_dim_bg))
         z_app_bg = sample_z((batch_size, z_dim_bg))
