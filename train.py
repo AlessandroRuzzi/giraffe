@@ -8,10 +8,13 @@ import time
 from im2scene import config
 from im2scene.checkpoints import CheckpointIO
 import logging
+import wandb
 from xgaze import get_train_loader
 logger_py = logging.getLogger(__name__)
 np.random.seed(0)
 torch.manual_seed(0)
+
+wandb.init(project="giraffe train", config={"gpu_id": 0})
 
 # Arguments
 parser = argparse.ArgumentParser(
