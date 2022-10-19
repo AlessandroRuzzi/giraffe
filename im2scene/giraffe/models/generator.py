@@ -127,9 +127,11 @@ class Generator(nn.Module):
 
         n_boxes = self.get_n_boxes()
 
+        gaze_direction = torch.reshape(gaze_direction, (batch_size,1,2))
+
         def sample_z(x): return self.sample_z(x, tmp=tmp)
         z_shape_obj = sample_z((batch_size, n_boxes, z_dim))
-        z_shape_obj[:,-2:] = gaze_direction
+        z_shape_obj[:,:,-2:] = gaze_direction
         z_app_obj = sample_z((batch_size, n_boxes, z_dim))
         z_shape_bg = sample_z((batch_size, z_dim_bg))
         z_app_bg = sample_z((batch_size, z_dim_bg))
