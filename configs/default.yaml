@@ -26,6 +26,7 @@ model:
   decoder_kwargs:
     rgb_out_dim: 512
   background_generator_kwargs:
+    rgb_out_dim: 512
     hidden_size: 64
     n_blocks: 4
     downscale_p_by: 12
