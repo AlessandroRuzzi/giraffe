@@ -87,7 +87,7 @@ class Generator(nn.Module):
                 not_render_background=False,
                 only_render_background=False):
         if latent_codes is None:
-            latent_codes = self.get_latent_codes(batch_size, gaze_direction)
+            latent_codes = self.get_latent_codes(gaze_direction = gaze_direction, batch_size = batch_size)
 
         if camera_matrices is None:
             camera_matrices = self.get_random_camera(batch_size)
@@ -122,14 +122,10 @@ class Generator(nn.Module):
             n_boxes = 1
         return n_boxes
 
-    def get_latent_codes(self, gaze_direction, batch_size=32, tmp=1.):
+    def get_latent_codes(self, gaze_direction, batch_size=2, tmp=1.):
         z_dim, z_dim_bg = self.z_dim, self.z_dim_bg
 
         n_boxes = self.get_n_boxes()
-
-        print(n_boxes)
-        print(batch_size)
-        print(z_dim)
 
         def sample_z(x): return self.sample_z(x, tmp=tmp)
         z_shape_obj = sample_z((batch_size, n_boxes, z_dim))
