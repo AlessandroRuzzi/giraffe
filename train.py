@@ -8,6 +8,7 @@ import time
 from im2scene import config
 from im2scene.checkpoints import CheckpointIO
 import logging
+from xgaze import get_train_loader
 logger_py = logging.getLogger(__name__)
 np.random.seed(0)
 torch.manual_seed(0)
@@ -50,13 +51,17 @@ else:
 if not os.path.exists(out_dir):
     os.makedirs(out_dir)
 
-train_dataset = config.get_dataset(cfg)
-train_loader = torch.utils.data.DataLoader(
-    train_dataset, batch_size=batch_size, num_workers=n_workers, shuffle=True,
-    pin_memory=True, drop_last=True,
-)
+#train_dataset = config.get_dataset(cfg)
+#train_loader = torch.utils.data.DataLoader(
+#    train_dataset, batch_size=batch_size, num_workers=n_workers, shuffle=True,
+#    pin_memory=True, drop_last=True,
+#)
 
-model = config.get_model(cfg, device=device, len_dataset=len(train_dataset))
+train_loader = get_train_loader(
+        cfg['data']['path'], batch_size, n_workers, evaluate="landmark"
+    )
+
+model = config.get_model(cfg, device=device, len_dataset=len(train_loader.dataset))
 
 
 # Initialize training
@@ -136,18 +141,11 @@ while (True):
             logger_py.info(info_txt)
             t0b = time.time()
 
-        # # Visualize output
-        if visualize_every > 0 and (it % visualize_every) == 0:
-            logger_py.info('Visualizing')
-            image_grid = trainer.visualize(it=it)
-            if image_grid is not None:
-                logger.add_image('images', image_grid, it)
-
         # Save checkpoint
         if (checkpoint_every > 0 and (it % checkpoint_every) == 0):
             logger_py.info('Saving checkpoint')
             print('Saving checkpoint')
-            checkpoint_io.save('model.pt', epoch_it=epoch_it, it=it,
+            checkpoint_io.save('model_%d.pt' % it, epoch_it=epoch_it, it=it,
                                loss_val_best=metric_val_best)
 
         # Backup if necessary
@@ -155,24 +153,6 @@ while (True):
             logger_py.info('Backup checkpoint')
             checkpoint_io.save('model_%d.pt' % it, epoch_it=epoch_it, it=it,
                                loss_val_best=metric_val_best)
-
-        # Run validation
-        if validate_every > 0 and (it % validate_every) == 0 and (it > 0):
-            print("Performing evaluation step.")
-            eval_dict = trainer.evaluate()
-            metric_val = eval_dict[model_selection_metric]
-            logger_py.info('Validation metric (%s): %.4f'
-                           % (model_selection_metric, metric_val))
-
-            for k, v in eval_dict.items():
-                logger.add_scalar('val/%s' % k, v, it)
-
-            if model_selection_sign * (metric_val - metric_val_best) > 0:
-                metric_val_best = metric_val
-                logger_py.info('New best model (loss %.4f)' % metric_val_best)
-                checkpoint_io.backup_model_best('model_best.pt')
-                checkpoint_io.save('model_best.pt', epoch_it=epoch_it, it=it,
-                                   loss_val_best=metric_val_best)
 
         # Exit if necessary
         if exit_after > 0 and (time.time() - t0) >= exit_after:

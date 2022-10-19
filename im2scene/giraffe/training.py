@@ -8,6 +8,9 @@ import torch
 from im2scene.training import BaseTrainer
 from tqdm import tqdm
 import logging
+import wandb
+import numpy as np
+from PIL import Image
 logger_py = logging.getLogger(__name__)
 
 
@@ -123,7 +126,7 @@ class Trainer(BaseTrainer):
             latents = generator.module.get_vis_dict()
             x_fake = generator(**latents)
         else:
-            x_fake = generator()
+            x_fake = generator(gaze_direction = data.get('gaze_direction').to(self.device))
 
         d_fake = discriminator(x_fake)
         gloss = compute_bce(d_fake, 1)
@@ -163,7 +166,7 @@ class Trainer(BaseTrainer):
                 latents = generator.module.get_vis_dict()
                 x_fake = generator(**latents)
             else:
-                x_fake = generator()
+                x_fake = generator(gaze_direction = data.get('gaze_direction').to(self.device))
 
         x_fake.requires_grad_()
         d_fake = discriminator(x_fake)
@@ -175,6 +178,14 @@ class Trainer(BaseTrainer):
         self.optimizer_d.step()
 
         d_loss = (d_loss_fake + d_loss_real)
+
+        if it%30 == 0:
+            img = np.concatenate([((x_real.detach().cpu().permute(0, 2, 3, 1).numpy()) * 255.0).astype(np.uint8),((x_fake.detach().cpu().permute(0, 2, 3, 1).numpy()) * 255.0).astype(np.uint8)],axis=2)
+            #img = np.concatenate([(input['image_a'].detach().cpu().permute(0, 2, 3, 1).numpy()* 255.0).astype(np.uint8),(input['image_b'].detach().cpu().permute(0, 2, 3, 1).numpy() * 255.0).astype(np.uint8),(generated.detach().cpu().permute(0, 2, 3, 1).numpy() * 255.0).astype(np.uint8)],axis=2)
+            img = Image.fromarray(img[0])
+            log_image = wandb.Image(img)
+            #log_image.show()
+            wandb.log({"Sted Prediction": log_image})
 
         return (
             d_loss.item(), reg.item(), d_loss_fake.item(), d_loss_real.item())
@@ -198,5 +209,5 @@ class Trainer(BaseTrainer):
             out_file_name = 'visualization_%010d.png' % it
 
         image_grid = make_grid(image_fake.clamp_(0., 1.), nrow=4)
-        save_image(image_grid, os.path.join(self.vis_dir, out_file_name))
+        #save_image(image_grid, os.path.join(self.vis_dir, out_file_name))
         return image_grid
