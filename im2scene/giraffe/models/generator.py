@@ -127,6 +127,10 @@ class Generator(nn.Module):
 
         n_boxes = self.get_n_boxes()
 
+        print(n_boxes)
+        print(batch_size)
+        print(z_dim)
+
         def sample_z(x): return self.sample_z(x, tmp=tmp)
         z_shape_obj = sample_z((batch_size, n_boxes, z_dim))
         z_shape_obj[:,-2:] = gaze_direction
