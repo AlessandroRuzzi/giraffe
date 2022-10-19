@@ -87,8 +87,6 @@ class Generator(nn.Module):
                 not_render_background=False,
                 only_render_background=False):
         if latent_codes is None:
-            print(gaze_direction)
-            print(batch_size)
             latent_codes = self.get_latent_codes(gaze_direction = gaze_direction, batch_size = batch_size)
 
         if camera_matrices is None:
@@ -128,7 +126,6 @@ class Generator(nn.Module):
         z_dim, z_dim_bg = self.z_dim, self.z_dim_bg
 
         n_boxes = self.get_n_boxes()
-        print(gaze_direction)
         gaze_direction = torch.reshape(input = gaze_direction, shape = (batch_size,1,2) )
 
         def sample_z(x): return self.sample_z(x, tmp=tmp)

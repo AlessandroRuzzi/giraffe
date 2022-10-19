@@ -47,7 +47,7 @@ class Trainer(BaseTrainer):
         self.fid_dict = fid_dict
         self.n_eval_iterations = n_eval_iterations
 
-        self.vis_dict = model.generator.get_vis_dict(16)
+        #self.vis_dict = model.generator.get_vis_dict(16)
 
         if multi_gpu:
             self.generator = torch.nn.DataParallel(self.model.generator)
