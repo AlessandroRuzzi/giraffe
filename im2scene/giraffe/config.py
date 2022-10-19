@@ -90,8 +90,11 @@ def get_trainer(model, optimizer, optimizer_d, cfg, device, **kwargs):
         cfg['training']['n_eval_images'] // cfg['training']['batch_size'])
 
     fid_file = cfg['data']['fid_file']
-    assert(fid_file is not None)
-    fid_dict = np.load(fid_file)
+    if fid_file is not None:
+        assert(fid_file is not None)
+        fid_dict = np.load(fid_file)
+    else:
+        fid_dict = {}
 
     trainer = training.Trainer(
         model, optimizer, optimizer_d, device=device, vis_dir=vis_dir,
