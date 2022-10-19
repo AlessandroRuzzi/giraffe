@@ -10,9 +10,22 @@ from im2scene.checkpoints import CheckpointIO
 import logging
 import wandb
 from xgaze import get_train_loader
+import random
 logger_py = logging.getLogger(__name__)
-np.random.seed(0)
-torch.manual_seed(0)
+
+torch.autograd.set_detect_anomaly(True)
+torch.manual_seed(45)  # cpu
+torch.cuda.manual_seed(55)  # gpu
+np.random.seed(65)  # numpy
+random.seed(75)  # random and transforms
+torch.backends.cudnn.deterministic = True  # cudnn
+torch.backends.cudnn.benchmark = True
+torch.backends.cuda.matmul.allow_tf32 = False
+torch.backends.cudnn.allow_tf32 = False
+
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+torch.set_num_threads(1)
 
 wandb.init(project="giraffe train", config={"gpu_id": 0})
 
