@@ -92,8 +92,8 @@ class Generator(nn.Module):
         if camera_matrices is None:
             camera_matrices = self.get_random_camera(batch_size)
 
-        #if transformations is None:
-            #transformations = self.get_random_transformations(batch_size)
+        if transformations is None:
+            transformations = self.get_random_transformations(batch_size)
 
         #if bg_rotation is None:
         #    bg_rotation = self.get_random_bg_rotation(batch_size)
