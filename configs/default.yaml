@@ -1,7 +1,7 @@
 method: giraffe
 data:
   dataset_name: images
-  path: /data/data2/aruzzi/xgaze_subjects/
+  path: /data/aruzzi/xgaze_subjects/
   classes: []
   img_size: 512
   fid_file: null
