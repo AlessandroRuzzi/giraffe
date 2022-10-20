@@ -308,7 +308,7 @@ class GazeDataset(Dataset):
 
         nl3dmm_para_dict["code"] = self.hdf["latent_codes"][0, :]
         nl3dmm_para_dict["code"][279:] = self.hdf["latent_codes"][idx, 279:]
-        nl3dmm_para_dict["code"] = np.concatenate(nl3dmm_para_dict["code"],self.hdf["pitchyaw_head"][idx, :] )
+        nl3dmm_para_dict["code"] = np.concatenate((nl3dmm_para_dict["code"],self.hdf["pitchyaw_head"][idx, :]))
         nl3dmm_para_dict["w2c_Rmat"] = self.hdf["w2c_Rmat"][idx, :]
         nl3dmm_para_dict["w2c_Tvec"] = self.hdf["w2c_Tvec"][idx, :]
         nl3dmm_para_dict["inmat"] = self.hdf["inmat"][idx, :]
