@@ -9,8 +9,8 @@ data:
   celebA_center_crop: False
   use_tanh_range: False
 model:
-  z_dim: 282
-  z_dim_bg: 282
+  z_dim: 258
+  z_dim_bg: 256
   decoder: simple
   discriminator: dc
   generator: simple
@@ -18,7 +18,10 @@ model:
   bounding_box_generator: simple
   neural_renderer: simple
   discriminator_kwargs: {}
-  bounding_box_generator_kwargs: {}
+  bounding_box_generator_kwargs: 
+    translation_range_min: [0., 0., 0.]
+    translation_range_max: [0., 0., 0.]
+    rotation_range: [0., 0.]
   generator_kwargs: {}
   neural_renderer_kwargs: {}
   decoder_kwargs: {}
@@ -35,7 +38,7 @@ training:
   visualize_every: 30
   validate_every: 10000
   backup_every: 1000000
-  learning_rate: 0.00005
+  learning_rate: 0.0001
   learning_rate_d: 0.00001
   model_selection_metric: fid_score
   model_selection_mode: minimize
