@@ -35,8 +35,8 @@ training:
   visualize_every: 30
   validate_every: 10000
   backup_every: 1000000
-  learning_rate: 0.0002
-  learning_rate_d: 0.0001
+  learning_rate: 0.00005
+  learning_rate_d: 0.00001
   model_selection_metric: fid_score
   model_selection_mode: minimize
   n_workers: 0
