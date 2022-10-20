@@ -126,7 +126,7 @@ class Trainer(BaseTrainer):
             latents = generator.module.get_vis_dict()
             x_fake = generator(**latents)
         else:
-            x_fake = generator(gaze_direction = data.get('gaze_direction').to(self.device))
+            x_fake = generator(data)
 
         d_fake = discriminator(x_fake)
         gloss = compute_bce(d_fake, 1)
@@ -166,7 +166,7 @@ class Trainer(BaseTrainer):
                 latents = generator.module.get_vis_dict()
                 x_fake = generator(**latents)
             else:
-                x_fake = generator(gaze_direction = data.get('gaze_direction').to(self.device))
+                x_fake = generator(data)
 
         x_fake.requires_grad_()
         d_fake = discriminator(x_fake)

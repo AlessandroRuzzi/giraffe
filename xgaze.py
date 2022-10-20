@@ -308,6 +308,7 @@ class GazeDataset(Dataset):
 
         nl3dmm_para_dict["code"] = self.hdf["latent_codes"][0, :]
         nl3dmm_para_dict["code"][279:] = self.hdf["latent_codes"][idx, 279:]
+        nl3dmm_para_dict["code"] = np.concatenate(nl3dmm_para_dict["code"],self.hdf["pitchyaw_head"][idx, :] )
         nl3dmm_para_dict["w2c_Rmat"] = self.hdf["w2c_Rmat"][idx, :]
         nl3dmm_para_dict["w2c_Tvec"] = self.hdf["w2c_Tvec"][idx, :]
         nl3dmm_para_dict["inmat"] = self.hdf["inmat"][idx, :]
@@ -320,6 +321,7 @@ class GazeDataset(Dataset):
         data = {
                 'image': image,
                 'gaze_direction' : self.hdf["pitchyaw_head"][idx, :],
+                'code' : nl3dmm_para_dict["code"],
             }
 
         if self.evaluate == "target":
@@ -358,6 +360,7 @@ class GazeDataset(Dataset):
 
             nl3dmm_para_dict_target["code"] = self.hdf["latent_codes"][0, :]
             nl3dmm_para_dict_target["code"][279:] = self.hdf["latent_codes"][idx, 279:]
+            nl3dmm_para_dict_target["code"] = np.concatenate(nl3dmm_para_dict_target["code"],self.hdf["pitchyaw_head"][idx, :] )
             nl3dmm_para_dict_target["w2c_Rmat"] = self.hdf["w2c_Rmat"][idx, :]
             nl3dmm_para_dict_target["w2c_Tvec"] = self.hdf["w2c_Tvec"][idx, :]
             nl3dmm_para_dict_target["inmat"] = self.hdf["inmat"][idx, :]
@@ -370,6 +373,7 @@ class GazeDataset(Dataset):
             data_target = {
                 'image': image_target,
                 'gaze_direction' : self.hdf["pitchyaw_head"][idx, :],
+                'code' : nl3dmm_para_dict_target["code"],
             }
 
             return data, data_target

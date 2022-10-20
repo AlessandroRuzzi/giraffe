@@ -81,22 +81,24 @@ class Generator(nn.Module):
         else:
             self.neural_renderer = None
 
-    def forward(self, batch_size=2, latent_codes=None, gaze_direction = None, camera_matrices=None,
+    def forward(self,data, batch_size=2, latent_codes=None, camera_matrices=None,
                 transformations=None, bg_rotation=None, mode="training", it=0,
                 return_alpha_map=False,
                 not_render_background=False,
                 only_render_background=False):
         if latent_codes is None:
-            latent_codes = self.get_latent_codes(gaze_direction = gaze_direction, batch_size = batch_size)
+            #latent_codes = self.get_latent_codes(gaze_direction = gaze_direction, batch_size = batch_size)
+            latent_codes = data.get('code').to(self.device)
 
         if camera_matrices is None:
-            camera_matrices = self.get_random_camera(batch_size)
+            #camera_matrices = self.get_random_camera(batch_size)
+            camera_matrices = self.get_camera()
 
-        if transformations is None:
-            transformations = self.get_random_transformations(batch_size)
+        #if transformations is None:
+        #    transformations = self.get_random_transformations(batch_size)
 
-        if bg_rotation is None:
-            bg_rotation = self.get_random_bg_rotation(batch_size)
+        #if bg_rotation is None:
+        #    bg_rotation = self.get_random_bg_rotation(batch_size)
 
         if return_alpha_map:
             rgb_v, alpha_map = self.volume_render_image(
@@ -161,7 +163,7 @@ class Generator(nn.Module):
             world_mat = world_mat.to(self.device)
         return camera_mat, world_mat
 
-    def get_camera(self, val_u=0.5, val_v=0.5, val_r=0.5, batch_size=32,
+    def get_camera(self, val_u=0.5, val_v=0.5, val_r=0.5, batch_size=2,
                    to_device=True):
         camera_mat = self.camera_matrix.repeat(batch_size, 1, 1)
         world_mat = get_camera_pose(
