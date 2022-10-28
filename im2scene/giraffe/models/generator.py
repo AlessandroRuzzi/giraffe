@@ -92,7 +92,7 @@ class Generator(nn.Module):
 
         if camera_matrices is None:
             #camera_matrices = self.get_random_camera(batch_size)
-            camera_matrices = self.get_camera()
+            camera_matrices = data.get('cam_mat').to(self.device), data.get('world_mat').to(self.device)
 
         #if transformations is None:
         #    transformations = self.get_random_transformations(batch_size)

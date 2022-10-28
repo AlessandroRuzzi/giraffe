@@ -202,10 +202,10 @@ class GazeDataset(Dataset):
                     #n = self.hdfs[num_i]["face_patch"].shape[0]
                     n = 50 * 18
                     self.idx_to_kv += [
-                        (num_i, i) for i in range(43*18)
+                        (num_i, i) for i in range(50*18)
                     ]  
                     self.idx_to_kv += [
-                        (num_i, i) for i in range(self.hdfs[num_i]["face_patch"].shape[0]-1, self.hdfs[num_i]["face_patch"].shape[0] - 1 - 7*18, -1)
+                        (num_i, i) for i in range(self.hdfs[num_i]["face_patch"].shape[0]-1, self.hdfs[num_i]["face_patch"].shape[0] - 1 - 0*18, -1)
                     ]  
         else:
             print("load the file: ", index_file[0])
@@ -322,6 +322,8 @@ class GazeDataset(Dataset):
                 'image': image,
                 'gaze_direction' : self.hdf["pitchyaw_head"][idx, :],
                 'code' : nl3dmm_para_dict["code"],
+                'cam_mat' : nl3dmm_para_dict["c2w_Rmat"],
+                'world_mat': nl3dmm_para_dict["w2c_Rmat"],
             }
 
         if self.evaluate == "target":
@@ -374,6 +376,8 @@ class GazeDataset(Dataset):
                 'image': image_target,
                 'gaze_direction' : self.hdf["pitchyaw_head"][idx, :],
                 'code' : nl3dmm_para_dict_target["code"],
+                'cam_mat' : nl3dmm_para_dict_target["c2w_Rmat"],
+                'world_mat': nl3dmm_para_dict_target["w2c_Rmat"],
             }
 
             return data, data_target
