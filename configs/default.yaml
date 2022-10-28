@@ -9,8 +9,8 @@ data:
   celebA_center_crop: False
   use_tanh_range: False
 model:
-  z_dim: 258
-  z_dim_bg: 256
+  z_dim: 102
+  z_dim_bg: 50
   decoder: simple
   discriminator: dc
   generator: simple
