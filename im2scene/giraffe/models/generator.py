@@ -87,9 +87,9 @@ class Generator(nn.Module):
                 not_render_background=False,
                 only_render_background=False):
         if latent_codes is None:
-            latent_codes = self.get_latent_codes( batch_size = batch_size)
-            #latent_codes = torch.cat((data.get('code')[:,:100],data.get('code')[:,-2:]), dim=1).double().to(self.device), torch.ones([batch_size, self.z_dim_bg]).double().to(self.device),torch.cat((data.get('code')[:,179:279],data.get('code')[:,-2:]),dim=1).double().to(self.device) ,torch.ones([batch_size, self.z_dim_bg]).double().to(self.device)
-        print(torch.cat((data.get('code')[:,:100],data.get('code')[:,-2:]), dim=1).to(self.device).dtype)
+            #latent_codes = self.get_latent_codes( batch_size = batch_size)
+            latent_codes = torch.cat((data.get('code')[:,:100],data.get('code')[:,-2:]), dim=1).float().to(self.device), torch.ones([batch_size, self.z_dim_bg]).float().to(self.device),torch.cat((data.get('code')[:,179:279],data.get('code')[:,-2:]),dim=1).float().to(self.device) ,torch.ones([batch_size, self.z_dim_bg]).float().to(self.device)
+        #print(torch.cat((data.get('code')[:,:100],data.get('code')[:,-2:]), dim=1).to(self.device).dtype)
         if camera_matrices is None:
             #camera_matrices = self.get_random_camera(batch_size)
             #camera_matrices = data.get('cam_mat').to(self.device), data.get('world_mat').to(self.device)
@@ -138,7 +138,7 @@ class Generator(nn.Module):
         z_shape_bg = sample_z((batch_size, z_dim_bg))
         z_app_bg = sample_z((batch_size, z_dim_bg))
 
-        print(z_app_obj.dtype)
+        #print(z_app_obj.dtype)
 
         return z_shape_obj, z_app_obj, z_shape_bg, z_app_bg
 
