@@ -95,11 +95,11 @@ class Generator(nn.Module):
             #camera_matrices = data.get('cam_mat').to(self.device), data.get('world_mat').to(self.device)
             camera_matrices = self.get_camera()
 
-        #if transformations is None:
-        #    transformations = self.get_random_transformations(batch_size)
+        if transformations is None:
+            transformations = self.get_random_transformations(batch_size)
 
-        #if bg_rotation is None:
-        #    bg_rotation = self.get_random_bg_rotation(batch_size)
+        if bg_rotation is None:
+            bg_rotation = self.get_random_bg_rotation(batch_size)
 
         if return_alpha_map:
             rgb_v, alpha_map = self.volume_render_image(
