@@ -88,7 +88,7 @@ class Generator(nn.Module):
                 only_render_background=False):
         if latent_codes is None:
             #latent_codes = self.get_latent_codes(gaze_direction = gaze_direction, batch_size = batch_size)
-            latent_codes = torch.cat(data.get('code')[:,:100],data.get('code')[:,-2:], dim=1).to(self.device), torch.ones([batch_size, self.z_dim_bg]).to(self.device),torch.cat(data.get('code')[:,179:279],data.get('code')[:,-2:],dim=1).to(self.device) ,torch.ones([batch_size, self.z_dim_bg]).to(self.device)
+            latent_codes = torch.cat((data.get('code')[:,:100],data.get('code')[:,-2:]), dim=1).to(self.device), torch.ones([batch_size, self.z_dim_bg]).to(self.device),torch.cat((data.get('code')[:,179:279],data.get('code')[:,-2:]),dim=1).to(self.device) ,torch.ones([batch_size, self.z_dim_bg]).to(self.device)
 
         if camera_matrices is None:
             #camera_matrices = self.get_random_camera(batch_size)
