@@ -88,7 +88,10 @@ class Generator(nn.Module):
                 only_render_background=False):
         if latent_codes is None:
             latent_codes = self.get_latent_codes( batch_size = batch_size)
-            #print(latent_codes[0].shape)
+            print(latent_codes[0].shape)
+            print(latent_codes[1].shape)
+            print(latent_codes[2].shape)
+            print(latent_codes[3].shape)
             latent_codes = torch.reshape(torch.cat((data.get('code')[:,:100],data.get('code')[:,-2:]), dim=1).float(),shape = (batch_size,1,self.z_dim)).to(self.device), torch.reshape(torch.ones([batch_size, self.z_dim_bg]).float(),shape = (batch_size,1,self.z_dim_bg) ).to(self.device),torch.reshape(torch.cat((data.get('code')[:,179:279],data.get('code')[:,-2:]),dim=1).float(),shape = (batch_size,1,self.z_dim) ).to(self.device) ,torch.reshape(torch.ones([batch_size, self.z_dim_bg]).float(),shape = (batch_size,1,self.z_dim_bg) ).to(self.device)
             print(latent_codes[0].shape)
             print(latent_codes[1].shape)
