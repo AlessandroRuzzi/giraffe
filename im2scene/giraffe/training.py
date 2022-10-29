@@ -146,6 +146,7 @@ class Trainer(BaseTrainer):
             log_image = wandb.Image(img)
             #log_image.show()
             wandb.log({"Sted Prediction": log_image})
+            wandb.log({"G_loss" : gloss})
 
         return gloss.item()
 
