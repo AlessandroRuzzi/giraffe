@@ -11,6 +11,7 @@ import logging
 import wandb
 import numpy as np
 from PIL import Image
+import torch.nn.functional as F
 logger_py = logging.getLogger(__name__)
 
 
@@ -74,12 +75,12 @@ class Trainer(BaseTrainer):
             it (int): training iteration
         '''
         loss_g = self.train_step_generator(data, it)
-        loss_d, reg_d, fake_d, real_d = self.train_step_discriminator(data, it)
+        #loss_d, reg_d, fake_d, real_d = self.train_step_discriminator(data, it)
 
         return {
             'generator': loss_g,
-            'discriminator': loss_d,
-            'regularizer': reg_d,
+            #'discriminator': loss_d,
+            #'regularizer': reg_d,
         }
 
     def eval_step(self):
@@ -129,7 +130,7 @@ class Trainer(BaseTrainer):
             x_fake = generator(data, not_render_background=True)
 
         d_fake = discriminator(x_fake)
-        gloss = compute_bce(d_fake, 1)
+        gloss = compute_bce(d_fake, 1) + F.mse_loss(x_fake, data.get('image').to(self.device))
 
         gloss.backward()
         self.optimizer.step()
