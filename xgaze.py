@@ -306,14 +306,16 @@ class GazeDataset(Dataset):
 
         nl3dmm_para_dict = {}
 
-        cam_mat = np.ones((4, 4))
-        world_mat = np.ones((4,4))
+        cam_mat = np.zeros((4, 4))
+        world_mat = np.zeros((4,4))
 
         cam_mat[:3,:3] = self.hdf["c2w_Rmat"][idx, :]
         cam_mat[:3,3] = self.hdf["c2w_Tvec"][idx, :]
+        cam_mat[3,3] = 1.0
 
         world_mat[:3,:3] = self.hdf["w2c_Rmat"][idx, :]
         world_mat[:3,3] = self.hdf["w2c_Tvec"][idx, :]
+        world_mat[3,3] = 1.0
 
         nl3dmm_para_dict["code"] = self.hdf["latent_codes"][0, :]
         nl3dmm_para_dict["code"][279:] = self.hdf["latent_codes"][idx, 279:]
@@ -369,14 +371,16 @@ class GazeDataset(Dataset):
 
             nl3dmm_para_dict_target = {}
 
-            cam_mat = np.ones((4, 4))
-            world_mat = np.ones((4,4))
+            cam_mat = np.zeros((4, 4))
+            world_mat = np.zeros((4,4))
 
             cam_mat[:3,:3] = self.hdf["c2w_Rmat"][idx, :]
             cam_mat[:3,3] = self.hdf["c2w_Tvec"][idx, :]
+            cam_mat[3,3] = 1.0
 
             world_mat[:3,:3] = self.hdf["w2c_Rmat"][idx, :]
             world_mat[:3,3] = self.hdf["w2c_Tvec"][idx, :]
+            world_mat[3,3] = 1.0
 
             nl3dmm_para_dict_target["code"] = self.hdf["latent_codes"][0, :]
             nl3dmm_para_dict_target["code"][279:] = self.hdf["latent_codes"][idx, 279:]

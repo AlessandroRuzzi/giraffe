@@ -92,7 +92,7 @@ class Generator(nn.Module):
         #print(torch.cat((data.get('code')[:,:100],data.get('code')[:,-2:]), dim=1).to(self.device).dtype)
         if camera_matrices is None:
             #camera_matrices = self.get_random_camera(batch_size)
-            camera_matrices = data.get('cam_mat').to(self.device), data.get('world_mat').to(self.device)
+            camera_matrices = data.get('cam_mat').float().to(self.device), data.get('world_mat').float().to(self.device)
             #camera_matrices = self.get_camera()
             #print(camera_matrices)
 
