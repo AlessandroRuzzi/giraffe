@@ -129,10 +129,10 @@ class Trainer(BaseTrainer):
         else:
             x_fake = generator(data)
 
-        d_fake = discriminator(x_fake)
+        #d_fake = discriminator(x_fake)
         x_real = data.get('image').to(self.device)
-        gloss = compute_bce(d_fake, 1) + F.mse_loss(x_fake, x_real)
-
+        #gloss = compute_bce(d_fake, 1) + F.mse_loss(x_fake, x_real)
+        gloss = F.mse_loss(x_fake, x_real)
         gloss.backward()
         self.optimizer.step()
 
