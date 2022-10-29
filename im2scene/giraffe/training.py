@@ -127,7 +127,7 @@ class Trainer(BaseTrainer):
             latents = generator.module.get_vis_dict()
             x_fake = generator(**latents)
         else:
-            x_fake = generator(data, not_render_background=True)
+            x_fake = generator(data)
 
         d_fake = discriminator(x_fake)
         gloss = compute_bce(d_fake, 1) + F.mse_loss(x_fake, data.get('image').to(self.device))
@@ -167,7 +167,7 @@ class Trainer(BaseTrainer):
                 latents = generator.module.get_vis_dict()
                 x_fake = generator(**latents)
             else:
-                x_fake = generator(data,not_render_background=True)
+                x_fake = generator(data)
 
         x_fake.requires_grad_()
         d_fake = discriminator(x_fake)
