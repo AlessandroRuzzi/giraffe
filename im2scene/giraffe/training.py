@@ -114,12 +114,12 @@ class Trainer(BaseTrainer):
 
     def train_step_generator(self, data, it=None, z=None):
         generator = self.generator
-        discriminator = self.discriminator
+        #discriminator = self.discriminator
 
         toggle_grad(generator, True)
-        toggle_grad(discriminator, False)
+        #toggle_grad(discriminator, False)
         generator.train()
-        discriminator.train()
+        #discriminator.train()
 
         self.optimizer.zero_grad()
 
