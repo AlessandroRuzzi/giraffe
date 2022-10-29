@@ -321,10 +321,10 @@ class GazeDataset(Dataset):
         nl3dmm_para_dict["code"] = self.hdf["latent_codes"][0, :]
         nl3dmm_para_dict["code"][279:] = self.hdf["latent_codes"][idx, 279:]
         nl3dmm_para_dict["code"] = np.concatenate((nl3dmm_para_dict["code"],self.hdf["pitchyaw_head"][idx, :]))
-        nl3dmm_para_dict["w2c_Rmat"] = world_mat
+        nl3dmm_para_dict["w2c_Rmat"] = cam_mat
         nl3dmm_para_dict["w2c_Tvec"] = self.hdf["w2c_Tvec"][idx, :]
         nl3dmm_para_dict["inmat"] = self.hdf["inmat"][idx, :]
-        nl3dmm_para_dict["c2w_Rmat"] = cam_mat
+        nl3dmm_para_dict["c2w_Rmat"] = world_mat
         nl3dmm_para_dict["c2w_Tvec"] = self.hdf["c2w_Tvec"][idx, :]
         nl3dmm_para_dict["inv_inmat"] = self.hdf["inv_inmat"][idx, :]
         nl3dmm_para_dict["pitchyaw"] = self.hdf["pitchyaw_head"][idx, :]
@@ -386,10 +386,10 @@ class GazeDataset(Dataset):
             nl3dmm_para_dict_target["code"] = self.hdf["latent_codes"][0, :]
             nl3dmm_para_dict_target["code"][279:] = self.hdf["latent_codes"][idx, 279:]
             nl3dmm_para_dict_target["code"] = np.concatenate((nl3dmm_para_dict_target["code"],self.hdf["pitchyaw_head"][idx, :]) )
-            nl3dmm_para_dict_target["w2c_Rmat"] = world_mat
+            nl3dmm_para_dict_target["w2c_Rmat"] = cam_mat
             nl3dmm_para_dict_target["w2c_Tvec"] = self.hdf["w2c_Tvec"][idx, :]
             nl3dmm_para_dict_target["inmat"] = self.hdf["inmat"][idx, :]
-            nl3dmm_para_dict_target["c2w_Rmat"] = cam_mat
+            nl3dmm_para_dict_target["c2w_Rmat"] = world_mat
             nl3dmm_para_dict_target["c2w_Tvec"] = self.hdf["c2w_Tvec"][idx, :]
             nl3dmm_para_dict_target["inv_inmat"] = self.hdf["inv_inmat"][idx, :]
             nl3dmm_para_dict_target["pitchyaw"] = self.hdf["pitchyaw_head"][idx, :]
