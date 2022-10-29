@@ -130,13 +130,22 @@ class Trainer(BaseTrainer):
             x_fake = generator(data)
 
         d_fake = discriminator(x_fake)
-        gloss = compute_bce(d_fake, 1) + F.mse_loss(x_fake, data.get('image').to(self.device))
+        x_real = data.get('image').to(self.device)
+        gloss = compute_bce(d_fake, 1) + F.mse_loss(x_fake, x_real)
 
         gloss.backward()
         self.optimizer.step()
 
         if self.generator_test is not None:
             update_average(self.generator_test, generator, beta=0.999)
+
+        if it%30 == 0:
+            img = np.concatenate([((x_real.detach().cpu().permute(0, 2, 3, 1).numpy()) * 255.0).astype(np.uint8),((x_fake.detach().cpu().permute(0, 2, 3, 1).numpy()) * 255.0).astype(np.uint8)],axis=2)
+            #img = np.concatenate([(input['image_a'].detach().cpu().permute(0, 2, 3, 1).numpy()* 255.0).astype(np.uint8),(input['image_b'].detach().cpu().permute(0, 2, 3, 1).numpy() * 255.0).astype(np.uint8),(generated.detach().cpu().permute(0, 2, 3, 1).numpy() * 255.0).astype(np.uint8)],axis=2)
+            img = Image.fromarray(img[0])
+            log_image = wandb.Image(img)
+            #log_image.show()
+            wandb.log({"Sted Prediction": log_image})
 
         return gloss.item()
 
