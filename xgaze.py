@@ -328,7 +328,7 @@ class GazeDataset(Dataset):
         nl3dmm_para_dict["inv_inmat"] = self.hdf["inv_inmat"][idx, :]
         nl3dmm_para_dict["pitchyaw"] = self.hdf["pitchyaw_head"][idx, :]
         nl3dmm_para_dict["head_pose"] = self.hdf["face_head_pose"][idx, :]
-        print(self.hdf["c2w_Rmat"][idx, :],self.hdf["c2w_Tvec"][idx, :], cam_mat)
+        #print(self.hdf["c2w_Rmat"][idx, :],self.hdf["c2w_Tvec"][idx, :], cam_mat)
         data = {
                 'image': image,
                 'gaze_direction' : self.hdf["pitchyaw_head"][idx, :],
