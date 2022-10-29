@@ -306,8 +306,8 @@ class GazeDataset(Dataset):
 
         nl3dmm_para_dict = {}
 
-        cam_mat = np.ones(4,4)
-        world_mat = np.ones(4,4)
+        cam_mat = np.ones((4, 4))
+        world_mat = np.ones((4,4))
 
         cam_mat[:3,:3] = self.hdf["c2w_Rmat"][idx, :]
         cam_mat[:3,3] = self.hdf["c2w_Tvec"][idx, :]
@@ -368,6 +368,9 @@ class GazeDataset(Dataset):
             cam_ind_target = self.hdf["cam_index"][idx, :]
 
             nl3dmm_para_dict_target = {}
+
+            cam_mat = np.ones((4, 4))
+            world_mat = np.ones((4,4))
 
             cam_mat[:3,:3] = self.hdf["c2w_Rmat"][idx, :]
             cam_mat[:3,3] = self.hdf["c2w_Tvec"][idx, :]
